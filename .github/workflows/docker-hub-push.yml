@@ -7,7 +7,7 @@ on:
 
 env:
   DOCKERHUB_USERNAME: bartvnim
-  IMAGE_NAME: trackpackers-contentreading
+  IMAGE_NAME: trackpackers-newpostsfeed
 
 jobs:
   build-and-publish:

@@ -1,4 +1,4 @@
-using ContentReaderService;
+using newPostsFeed;
 
 var builder = WebApplication.CreateBuilder(args);
 

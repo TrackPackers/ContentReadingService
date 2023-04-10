@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ContentReaderService.Controllers
+namespace newPostsFeed.Controllers
 {
     [ApiController]
     [Route("[controller]")]

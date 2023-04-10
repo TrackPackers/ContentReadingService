@@ -1,4 +1,4 @@
-namespace ContentReaderService
+namespace newPostsFeed
 {
     public class WeatherForecast
     {

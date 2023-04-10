@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentReaderService", "ContentReaderService.csproj", "{3E5B3154-9A35-4EF4-AC5C-1A6B3F9CA281}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "newPostsFeed", "newPostsFeed.csproj", "{3E5B3154-9A35-4EF4-AC5C-1A6B3F9CA281}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

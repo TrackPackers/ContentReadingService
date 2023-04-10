@@ -5,7 +5,7 @@ using Kafka.Public;
 using Kafka.Public.Loggers;
 
 
-namespace ContentReaderService
+namespace newPostsFeed
 {
     public class KafkaConsumer : IHostedService
     {

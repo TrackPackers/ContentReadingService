@@ -33,15 +33,16 @@ namespace newPostsFeed
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _cluster.ConsumeFromLatest("NEW_CONTENT");
+            _logger.LogInformation("SUBSCRIBED TO NEW_CONTENT");
             _cluster.MessageReceived += record =>
             {
+                _logger.LogInformation(Encoding.UTF8.GetString(record.Value as byte[]));
+
                 var json = JsonObject.Parse(Encoding.UTF8.GetString(record.Value as byte[]));
                 var id = (string)json["Id"];
                 var name = (string)json["Name"];
                 var message = (string)json["Message"];
                 var createdAt = (string)json["CreatedAt"];
-
-                _logger.LogInformation(createdAt.ToString());
 
                 _redisDatabase.HashSet("Message", new[]
                 {

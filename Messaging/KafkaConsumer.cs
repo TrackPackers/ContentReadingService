@@ -17,16 +17,16 @@ namespace newPostsFeed
         private readonly IDatabase _redisDatabase;
 
 
-        public KafkaConsumer(ILogger<KafkaConsumer> logger)
+        public KafkaConsumer(ILogger<KafkaConsumer> logger, IConfiguration configuration)
         {
             _logger = logger;
 
-            var redis = ConnectionMultiplexer.Connect("localhost:6379");
+            var redis = ConnectionMultiplexer.Connect(configuration["REDIS_URI"]);
             _redisDatabase = redis.GetDatabase();
 
             _cluster = new ClusterClient(new Configuration
             {
-                Seeds = "localhost:9092"
+                Seeds = configuration["KAFKA_URI"],
             }, new ConsoleLogger());
         }
 

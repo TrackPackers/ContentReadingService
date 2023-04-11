@@ -9,9 +9,9 @@ namespace newPostsFeed.Controllers
     public class ContentController : ControllerBase
     {
         private readonly IDatabase _redisDatabase;
-        public ContentController()
+        public ContentController(IConfiguration configuration)
         {
-            var redis = ConnectionMultiplexer.Connect("localhost:6379");
+            var redis = ConnectionMultiplexer.Connect(configuration["REDIS_URI"]);
             _redisDatabase = redis.GetDatabase();
         }
 

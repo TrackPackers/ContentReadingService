@@ -11,6 +11,7 @@ namespace newPostsFeed.Controllers
         private readonly IDatabase _redisDatabase;
         public ContentController(IConfiguration configuration)
         {
+            Console.WriteLine(configuration["REDIS_URI"]);
             var redis = ConnectionMultiplexer.Connect(configuration["REDIS_URI"]);
             _redisDatabase = redis.GetDatabase();
         }

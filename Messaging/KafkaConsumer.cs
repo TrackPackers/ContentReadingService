@@ -33,29 +33,47 @@ namespace newPostsFeed
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _cluster.ConsumeFromLatest("NEW_CONTENT");
+            _cluster.ConsumeFromLatest("DELETE_USER");
             _logger.LogInformation("SUBSCRIBED TO NEW_CONTENT");
             _cluster.MessageReceived += record =>
             {
                 _logger.LogInformation(Encoding.UTF8.GetString(record.Value as byte[]));
 
                 var json = JsonObject.Parse(Encoding.UTF8.GetString(record.Value as byte[]));
-                var id = (string)json["Id"];
-                var name = (string)json["Name"];
-                var message = (string)json["Message"];
-                var createdAt = (string)json["CreatedAt"];
 
-                _redisDatabase.HashSet("Message", new[]
+                if(record.Topic == "NEW_CONTENT")
                 {
+                    var id = (string)json["Id"];
+                    var name = (string)json["Name"];
+                    var message = (string)json["Message"];
+                    var createdAt = (string)json["CreatedAt"];
+
+                    _redisDatabase.HashSet("Message", new[]
+                    {
                     new HashEntry(id, message),
-                });
-                _redisDatabase.HashSet("Name", new[]
-{
+                    });
+                    _redisDatabase.HashSet("Name", new[]
+    {
                     new HashEntry(id, name),
-                });
-                _redisDatabase.HashSet("CreatedAt", new[]
-{
+                    });
+                    _redisDatabase.HashSet("CreatedAt", new[]
+    {
                     new HashEntry(id, createdAt),
-                });
+                    });
+                }
+
+                if(record.Topic == "DELETE_USER")
+                {
+                    var name = (string)json["Name"];
+
+                    var keysToDelete = _redisDatabase.HashKeys("Name")
+                        .Where(key => _redisDatabase.HashGet("Name", key).ToString() == name)
+                        .ToArray();
+
+                    _redisDatabase.HashDelete("Message", keysToDelete);
+                    _redisDatabase.HashDelete("Name", keysToDelete);
+                    _redisDatabase.HashDelete("CreatedAt", keysToDelete);
+                }
 
             };
             return Task.CompletedTask;

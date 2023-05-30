@@ -7,7 +7,8 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
-builder.Services.AddHostedService<KafkaConsumer>();
+builder.Services.AddHostedService<KafkaContentConsumer>();
+builder.Services.AddHostedService<KafkaUserConsumer>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
